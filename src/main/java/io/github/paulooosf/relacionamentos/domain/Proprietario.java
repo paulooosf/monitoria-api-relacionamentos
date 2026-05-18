@@ -2,6 +2,7 @@ package io.github.paulooosf.relacionamentos.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,12 +16,15 @@ public class Proprietario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único do proprietário")
     private Long id;
 
     @NotBlank(message = "Nome é obrigatório")
+    @Schema(description = "Nome completo do proprietário", requiredMode = Schema.RequiredMode.REQUIRED)
     private String nome;
 
     @Email(message = "Email inválido")
+    @Schema(description = "Email do proprietário", requiredMode = Schema.RequiredMode.REQUIRED)
     private String email;
 
     // lado inverso — opcional, só pra navegação

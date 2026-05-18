@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -26,28 +27,34 @@ public class Veiculo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(description = "Identificador único do veículo")
     private Long id;
 
     @NotBlank(message = "Preencha a placa")
     @Size(max = 7, message = "Placa máximo {max} caracteres")
     @Column(nullable = false, length = 7)
+    @Schema(description = "Placa do veículo", example = "ABC1D23", requiredMode = Schema.RequiredMode.REQUIRED)
     private String placa;
 
     @NotBlank(message = "Preencha a marca")
     @Column(nullable = false, length = 30)
+    @Schema(description = "Marca do veículo", example = "Toyota", requiredMode = Schema.RequiredMode.REQUIRED)
     private String marca;
 
     @NotBlank(message = "Preencha o modelo")
     @Column(nullable = false, length = 40)
+    @Schema(description = "Modelo do veículo", example = "Corolla", requiredMode = Schema.RequiredMode.REQUIRED)
     private String modelo;
 
     @Embedded
     @Valid
+    @Schema(description = "Características técnicas do veículo")
     private Caracteristica caracteristica;
 
     // OneToOne — Veiculo tem a FK id_proprietario
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_proprietario")
+    @Schema(description = "Proprietário do veículo — informar apenas o id")
     private Proprietario proprietario;
 
     // OneToMany — um veiculo tem várias manutencoes
