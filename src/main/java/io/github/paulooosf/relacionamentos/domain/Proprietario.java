@@ -2,6 +2,7 @@ package io.github.paulooosf.relacionamentos.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.github.paulooosf.relacionamentos.dto.ProprietarioRequestDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,6 +34,11 @@ public class Proprietario {
     private Veiculo veiculo;
 
     public Proprietario() {}
+    
+    public Proprietario(ProprietarioRequestDTO dto) {
+    	this.nome = dto.nome();
+    	this.email = dto.email();
+    }
 
 	public Long getId() {
 		return id;
