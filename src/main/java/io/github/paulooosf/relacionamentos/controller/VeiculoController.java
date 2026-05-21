@@ -1,9 +1,12 @@
 package io.github.paulooosf.relacionamentos.controller;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -30,16 +34,21 @@ public class VeiculoController {
     @Autowired
     private VeiculoService service;
 
-    @GetMapping
-    @Operation(summary = "Lista todos os veículos", description = "Retorna a lista completa de veículos cadastrados.")
-    public ResponseEntity<List<VeiculoResponseDTO>> listar() {
-        return ResponseEntity.ok(service.listar());
+    @GetMapping("/pagina")
+    @Operation(summary = "Lista veículos paginados")
+    public ResponseEntity<Page<VeiculoResponseDTO>> listarPaginado(
+            @PageableDefault(sort = "marca", direction = Sort.Direction.ASC, page = 0, size = 5)
+            Pageable pageable) {
+        Page<VeiculoResponseDTO> resultado = service.listarPaginado(pageable);
+        return ResponseEntity.ok(resultado);
     }
 
-    @GetMapping("/{id}")
-    @Operation(summary = "Busca veículo por ID")
-    public ResponseEntity<VeiculoResponseDTO> buscar(@PathVariable Long id) {
-        return ResponseEntity.ok(service.buscar(id));
+    @GetMapping("/buscar")
+    @Operation(summary = "Busca veículos por marca")
+    public ResponseEntity<Page<VeiculoResponseDTO>> buscarPorMarca(
+            @RequestParam(defaultValue = "") String marca,
+            Pageable pageable) {
+        return ResponseEntity.ok(service.buscarPorMarca(marca, pageable));
     }
 
     @PostMapping

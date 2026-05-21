@@ -1,6 +1,7 @@
 package io.github.paulooosf.relacionamentos.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -22,6 +23,9 @@ public class Servico {
 
     @Column
     private BigDecimal valor;
+    
+    @Column(name = "data_cadastro")
+    private LocalDate dataCadastro = LocalDate.now();
 
     public Servico() {}
 
@@ -47,5 +51,13 @@ public class Servico {
 
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
+	}
+
+	public LocalDate getDataCadastro() {
+		return dataCadastro;
+	}
+
+	public void setDataCadastro(LocalDate dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
 }
